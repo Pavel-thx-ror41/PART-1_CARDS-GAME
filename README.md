@@ -2,13 +2,13 @@
 
     # ПСЕВДОКОД
 
-    app
+    # app
 
-    deck
+    # deck
         2..10(36), J..K(12), A(4)
         # 52 карты
 
-    dealer
+    # dealer
         @name = 'крупье'
         @money = 100
         do_turn(game_info) # 1 of 2, by dealer:
@@ -17,7 +17,7 @@
           2 more_card CAN_if dealer_cards.scores < 17 && dealer_cards.count < 3
               deal_card(dealer, game_deck)
 
-    player
+    # player
         @name = input
         @money = 100
         do_turn(game_info) # 1 of 3, by user:
@@ -28,7 +28,7 @@
             5 open_cards # Открыть карты, закончить игру
                 player_force_game_end_by_opening
     
-    game
+    # game
         new(dealer, player)
             game_deck.new(deck)
             game_bank = 20
