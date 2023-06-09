@@ -5,7 +5,7 @@
     # app
 
     # deck
-        2..10(36), J..K(12), A(4)
+        # 2..10(36), J..K(12), A(4)
         # 52 карты
 
     # dealer
@@ -71,9 +71,11 @@
             show_scores(player.score)
 
         calc_new_score(player_curr_score, cards)
-            2..10 :: +1
-            J,Q,K :: +10
-            A     :: (player_curr_score+11) < 21 ? +11 : +1
+            cards.each
+        #       score_for_card_with_score(card, player_curr_score)
+        #     2..10 :: +1
+        #     J,Q,K :: +10
+        #     A     :: (player_curr_score+11) < 21 ? +11 : +1
     
 
 * Есть игрок (пользователь) и дилер (управляется программой).
