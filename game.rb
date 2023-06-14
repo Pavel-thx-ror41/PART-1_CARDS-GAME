@@ -143,6 +143,6 @@ class Game
   # end
 
   def scores(cards)
-    cards.reduce(0) { |score, card| score += Game.score_for_card_with_score(card, score) }
+    cards.reduce(0) { |score, card| score + Game.score_for_card_with_score(card, score) }
   end
 end
