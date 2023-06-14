@@ -3,6 +3,7 @@
 # Игрок
 class Player
   attr_accessor :money
+  attr_reader :name
 
   def initialize(name, money)
     @name = name

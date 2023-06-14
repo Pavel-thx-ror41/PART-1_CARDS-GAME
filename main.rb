@@ -15,10 +15,9 @@ class App
     dealer = Dealer.new(100)
     player = Player.new(ask('Введите Ваше имя'), 100)
 
-    # binding.pry
     loop do
       puts Game.new(dealer, player).play
-      exit if player.money < 10 || dealer.money < 10 || ask('Ещё игру?').to_s.upcase.eql?('N')
+      exit if player.money < 10 || dealer.money < 10 || !ask('Ещё игру?').to_s.upcase.eql?('Y')
     end
   end
 
