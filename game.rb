@@ -123,7 +123,7 @@ class Game
   def show_game
     puts
     puts "Игрок: #{@player.name} $#{@player.money}"
-    puts "Текущая игра: ваши карты: #{@player_cards.map(&' '.method(:+)).join} , ?? очков    " \
+    puts "Текущая игра: ваши карты: #{@player_cards.map(&' '.method(:+)).join} , #{scores(@player_cards)} очков    " \
          "карты крупье: #{(Deck.card_back * @dealer_cards.count).chars.map(&' '.method(:+)).join}"
 
   end
@@ -141,4 +141,8 @@ class Game
   # def player_game_info
   #   Player_Game_Info.new('A7J', 12, 'XX')
   # end
+
+  def scores(cards)
+    cards.reduce(0) { |score, card| score += Game.score_for_card_with_score(card, score) }
+  end
 end
