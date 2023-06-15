@@ -16,6 +16,8 @@ class App
     player = Player.new(ask('Введите Ваше имя'), 100)
 
     loop do
+      dealer.money -= 10
+      player.money -= 10
       puts Game.new(dealer, player).play
       exit if player.money < 10 || dealer.money < 10 || !ask('Ещё игру?').to_s.upcase.eql?('Y')
     end

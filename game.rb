@@ -15,12 +15,10 @@ class Game
   def initialize(dealer, player)
     # player
     @player = player
-    @player.money -= 10
     @player_cards = []
 
     # dealer
     @dealer = dealer
-    @dealer.money -= 10
     @dealer_cards = []
 
     # casino
