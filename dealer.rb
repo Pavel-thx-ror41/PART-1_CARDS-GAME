@@ -8,13 +8,8 @@ class Dealer
     @money = money
   end
 
-  def get_turn(_dealer_game_info, _possible_actions)
-    # TODO
-    # binding.pry
-
-    # dealer_game_info.show
-    # puts possible_actions
-    #
-    # possible_actions[random]
+  def get_turn(possible_actions)
+    puts "Крупье произвёл действие: #{possible_actions.values.first}"
+    possible_actions.keys.first
   end
 end
