@@ -40,6 +40,7 @@ class Game
 
     # casino
     @deck = Deck.new
+    @open_cards_flag = false
     2.times do
       @player_cards << @deck.card_get
       @dealer_cards << @deck.card_get
@@ -49,10 +50,36 @@ class Game
   def play
     loop do
       show_game
-      player_turn
-      dealer_turn
+      play_turn("player_#{player_turn}")
+      break if game_end?
+
+      show_game
+      # play_turn("dealer_#{dealer_turn}")
       break if game_end?
     end
+    winner
+  end
+
+  private
+
+  def play_turn(turn)
+    case turn
+    when 'player_skip_turn'
+      # do nothing
+    when 'player_open_cards'
+      @open_cards_flag = true
+    when 'player_deal_card'
+      @player_cards << @deck.card_get
+    else
+      raise 'Ошибка в программе, запрошен неизвестный ход.'
+    end
+  end
+
+  def game_end?
+    @open_cards_flag || (@dealer_cards.count > 2 && @player_cards.count > 2)
+  end
+
+  def winner
     [nil, @player, @dealer].shuffle!.shuffle!.pop # возвращаем победителя
     # return_winner(player_cards, dealer_cards)
     # ps = (player_cards-21).abs
@@ -60,18 +87,6 @@ class Game
     # if    ps==ds 0
     # elsif ps<ds  1
     # else  ds<ps  2
-    # # [[1,2], [4,5]].transpose.map(&:sum) #=> [5,7]
-    # # banks = [50,70]
-    # # bame_result = []
-  end
-
-  private
-
-  def game_end?
-    # TODO
-    #   game_scores = [scores(player_cards), scores(dealer_cards)]
-    #   end_game return_winner, do_checkout  DO_IT_if game_end_by_scores? || FORCE_GAME_END_FLAG || (dealer_cards.count > 2 && player_cards.count > 2)
-    true
   end
 
   def dealer_game_info
@@ -85,59 +100,32 @@ class Game
     )
     # binding.pry
     # TODO
-    # player.do_turn(game_info) # 1 of 2, by dealer:
+    # - Пропустить ход (если очков у дилера 17 или более). Ход переходит игроку.
     # 1 skip CAN_if dealer_cards.scores > 16
-    # # do nothing
+    #   # do nothing
+    # - Добавить карту (если очков менее 17). У дилера появляется новая карта (для пользователя закрыта)
     # 2 more_card CAN_if dealer_cards.scores < 17 && dealer_cards.count < 3
-    # deal_card(dealer, game_deck)
-  end
-
-  def possible_dealer_actions(_player_game_info)
-    # TODO
-  end
-
-  def get_correct_dealer_turn(dealer_game_info, turn)
-    turn = nil
-    until turn
-      turn = dealer_can_turn?(turn)
-    end
-  end
-
-  def dealer_can_turn?(turn)
-    # TODO
-    # if possible_dealer_actions(_player_game_info)
-    true
+    #   deal_card(dealer, game_deck)
   end
 
   def player_turn
-    _player_turn = # get_correct_player_turn(   ## @player_cards, @dealer_cards.count,
-      @player.get_turn(Game.possible_player_actions(@player_cards.count))
-    # )
-    binding.pry
-  end
-
-  def get_correct_player_turn(player_game_info, turn)
-    # TODO
-    # until turn
-    #   turn = player_can_turn?(player_game_info, turn)
-    # end
-  end
-
-  def player_can_turn?(_player_game_info, _turn)
-    # TODO
-    # if possible_player_actions(_player_game_info)
-    true
+    player_choice = nil
+    until player_choice
+      ui_choice = @player.get_turn(Game.possible_player_actions(@player_cards.count))
+      player_choice = ui_choice if Game.possible_player_actions(@player_cards.count).keys.include?(ui_choice)
+      player_choice
+    end
+    player_choice
   end
 
   def show_game
     puts
-    puts "Игрок: #{@player.name} $#{@player.money}. " \
+    puts "Игрок: #{@player.name} $#{@player.money}.   " \
          "Текущая игра:  ваши карты: #{@player_cards.map(&' '.method(:+)).join}" \
          " , #{Game.score_for_cards(@player_cards)} очков" \
          "   карты крупье [DEBUG]: #{@dealer_cards.map(&' '.method(:+)).join}" \
          " , #{Game.score_for_cards(@dealer_cards)} очков "
     #    "   карты крупье: #{(Deck.card_back * @dealer_cards.count).chars.map(&' '.method(:+)).join}"
-
   end
 
   # PlayerGameInfo = Struct.new(:user_cards, :user_scores, :dealer_cards) do
