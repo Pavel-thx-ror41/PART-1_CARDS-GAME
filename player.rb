@@ -10,14 +10,7 @@ class Player
     @money = money
   end
 
-  def get_turn(player_game_info, possible_actions)
-    # TODO
-    # binding.pry
-
-    # player_game_info.show
-    # puts possible_actions
-    #
-    # # ask_for_action
-    # gets.chop
+  def get_turn(possible_actions)
+    UI.choose('Выбирете действие', possible_actions)
   end
 end

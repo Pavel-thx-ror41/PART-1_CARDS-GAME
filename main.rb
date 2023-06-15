@@ -14,6 +14,16 @@ class UI
     print "#{prompt}: "
     gets.chomp
   end
+
+  def self.choose(prompt, choices)
+    player_choice = nil
+    until player_choice
+      print "#{prompt}, доступно: " \
+          "#{choices.values.each_with_index.map { |value, index| "#{index + 1}) #{value}" }.join(', ')}. Ваш выбор:"
+      player_choice = choices.keys[gets.chomp.to_i - 1]
+    end
+    player_choice
+  end
 end
 
 # Основной класс, приложение

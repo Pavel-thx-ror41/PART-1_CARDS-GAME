@@ -2,6 +2,10 @@
 
 # Игра
 class Game
+  PLAYER_ACTIONS_ALWAYS = { skip_turn: 'Пропустить ход', open_cards: 'Открыть карты и закончить игру' }.freeze
+  PLAYER_ACTIONS_ADDITIONAL = { deal_card: 'Добрать карту' }.freeze
+  PLAYER_ACTIONS_ALL_POSSIBLE = PLAYER_ACTIONS_ALWAYS.merge(PLAYER_ACTIONS_ADDITIONAL).freeze
+
   def self.score_for_card_with_score(card, curr_score)
     [
       *Deck::DIGITS.each_slice(4).to_a.each_with_index.map do |digit, index|
@@ -14,6 +18,15 @@ class Game
 
   def self.score_for_cards(cards)
     cards.reduce(0) { |score, card| score + Game.score_for_card_with_score(card, score) }
+  end
+
+  def self.possible_player_actions(player_cards_count)
+    # skip_turn # Пропустить
+    # open_cards # Открыть карты, закончить игру, подсчитав очки
+    #   player_force_game_end_by_opening
+    # deal_card CAN_if player_cards.count < 3 # Добавить карту, если у игрока карт меньше 3-х
+    #   deal_card(player, game_deck)
+    player_cards_count > 2 ? PLAYER_ACTIONS_ALWAYS : PLAYER_ACTIONS_ALL_POSSIBLE
   end
 
   def initialize(dealer, player)
@@ -90,23 +103,10 @@ class Game
   end
 
   def player_turn
-    _player_turn = get_correct_player_turn(
-      player_game_info,
-      @player.get_turn(player_game_info, possible_player_actions(player_game_info))
-    )
-    # binding.pry
-    # TODO
-    # do_turn(game_info) # 1 of 3, by user:
-    # 3 skip # Пропустить
-    #   # do nothing
-    # 4 more_card CAN_if player_cards.count < 3 # Добавить карту
-    #   deal_card(player, game_deck)
-    # 5 open_cards # Открыть карты, закончить игру
-    #   player_force_game_end_by_opening
-  end
-
-  def possible_player_actions(_player_game_info)
-    # TODO
+    _player_turn = # get_correct_player_turn(   ## @player_cards, @dealer_cards.count,
+      @player.get_turn(Game.possible_player_actions(@player_cards.count))
+    # )
+    binding.pry
   end
 
   def get_correct_player_turn(player_game_info, turn)
