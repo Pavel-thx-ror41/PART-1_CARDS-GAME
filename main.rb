@@ -56,18 +56,19 @@ class App
       when player
         player.money += game_bank
         puts
-        puts "Выиграл игрок: #{player.name}."
+        puts "Выиграл #{player.name}."
       else
         raise 'Ошибка программы, от Game.play, ожидается результат игры: nil, player или dealer'
       end
       show_money(dealer, player)
-      puts
       exit if player.money < BET || dealer.money < BET || !UI.ask('Играем ещё? (Y/N)').to_s.upcase.eql?('Y')
+      puts
+      puts
     end
   end
 
   def show_money(dealer, player)
-    puts "Крупье:#{dealer.money}$, Игрок:#{player.money}$"
+    puts "Крупье:#{dealer.money}$, #{player.name}:#{player.money}$"
   end
 end
 

@@ -98,8 +98,8 @@ class Game
     player_score = (Game.score_for_cards(@player_cards) - 21).abs
 
     puts 'Игра окончена.     ' \
-         "карты игрока:#{show_cards(@player_cards)} , #{Game.score_for_cards(@player_cards)} очков     " \
-         "карты крупье:#{show_cards(@dealer_cards)} , #{Game.score_for_cards(@dealer_cards)} очков" \
+         "карты игрока:#{show_cards(@player_cards)} , очков: #{Game.score_for_cards(@player_cards)}     " \
+         "карты крупье:#{show_cards(@dealer_cards)} , очков: #{Game.score_for_cards(@dealer_cards)}" \
 
     if dealer_score == player_score then nil
     elsif dealer_score < player_score then @dealer
