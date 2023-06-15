@@ -80,13 +80,13 @@ class Game
   end
 
   def winner
-    [nil, @player, @dealer].shuffle!.shuffle!.pop # возвращаем победителя
-    # return_winner(player_cards, dealer_cards)
-    # ps = (player_cards-21).abs
-    # ds = (dealer_cards-21).abs
-    # if    ps==ds 0
-    # elsif ps<ds  1
-    # else  ds<ps  2
+    dealer_score = (Game.score_for_cards(@dealer_cards) - 21).abs
+    player_score = (Game.score_for_cards(@player_cards) - 21).abs
+
+    if dealer_score == player_score then nil
+    elsif dealer_score < player_score then @dealer
+    elsif dealer_score > player_score then @player
+    end
   end
 
   def dealer_game_info
