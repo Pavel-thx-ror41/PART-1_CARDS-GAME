@@ -53,13 +53,24 @@ class Game
       dealer_turn
       break if game_end?
     end
-    [nil, @player, @dealer].shuffle!.shuffle!.pop
+    [nil, @player, @dealer].shuffle!.shuffle!.pop # возвращаем победителя
+    # return_winner(player_cards, dealer_cards)
+    # ps = (player_cards-21).abs
+    # ds = (dealer_cards-21).abs
+    # if    ps==ds 0
+    # elsif ps<ds  1
+    # else  ds<ps  2
+    # # [[1,2], [4,5]].transpose.map(&:sum) #=> [5,7]
+    # # banks = [50,70]
+    # # bame_result = []
   end
 
   private
 
   def game_end?
     # TODO
+    #   game_scores = [scores(player_cards), scores(dealer_cards)]
+    #   end_game return_winner, do_checkout  DO_IT_if game_end_by_scores? || FORCE_GAME_END_FLAG || (dealer_cards.count > 2 && player_cards.count > 2)
     true
   end
 
@@ -98,10 +109,6 @@ class Game
     true
   end
 
-  def player_game_info
-    [@player_cards, @dealer_cards.count]
-  end
-
   def player_turn
     _player_turn = # get_correct_player_turn(   ## @player_cards, @dealer_cards.count,
       @player.get_turn(Game.possible_player_actions(@player_cards.count))
@@ -110,9 +117,10 @@ class Game
   end
 
   def get_correct_player_turn(player_game_info, turn)
-    until turn
-      turn = player_can_turn?(player_game_info, turn)
-    end
+    # TODO
+    # until turn
+    #   turn = player_can_turn?(player_game_info, turn)
+    # end
   end
 
   def player_can_turn?(_player_game_info, _turn)
