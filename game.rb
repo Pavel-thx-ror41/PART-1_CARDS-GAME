@@ -12,6 +12,10 @@ class Game
     ].to_h[card]
   end
 
+  def self.score_for_cards(cards)
+    cards.reduce(0) { |score, card| score + Game.score_for_card_with_score(card, score) }
+  end
+
   def initialize(dealer, player)
     # player
     @player = player
@@ -42,7 +46,7 @@ class Game
   private
 
   def game_end?
-    puts "Game end: true"
+    # TODO
     true
   end
 
@@ -119,10 +123,12 @@ class Game
 
   def show_game
     puts
-    puts "Игрок: #{@player.name} $#{@player.money}"
-    puts "Текущая игра:  ваши карты: #{@player_cards.map(&' '.method(:+)).join} , #{scores(@player_cards)} очков" \
-         "   карты крупье: #{@dealer_cards.map(&' '.method(:+)).join} , #{scores(@dealer_cards)} очков "
-    # "карты крупье: #{(Deck.card_back * @dealer_cards.count).chars.map(&' '.method(:+)).join}"
+    puts "Игрок: #{@player.name} $#{@player.money}. " \
+         "Текущая игра:  ваши карты: #{@player_cards.map(&' '.method(:+)).join}" \
+         " , #{Game.score_for_cards(@player_cards)} очков" \
+         "   карты крупье [DEBUG]: #{@dealer_cards.map(&' '.method(:+)).join}" \
+         " , #{Game.score_for_cards(@dealer_cards)} очков "
+    #    "   карты крупье: #{(Deck.card_back * @dealer_cards.count).chars.map(&' '.method(:+)).join}"
 
   end
 
@@ -139,8 +145,4 @@ class Game
   # def player_game_info
   #   Player_Game_Info.new('A7J', 12, 'XX')
   # end
-
-  def scores(cards)
-    cards.reduce(0) { |score, card| score + Game.score_for_card_with_score(card, score) }
-  end
 end
