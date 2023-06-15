@@ -8,6 +8,14 @@ require_relative 'dealer'
 require_relative 'player'
 require_relative 'game'
 
+# UI
+class UI
+  def self.ask(prompt)
+    print "#{prompt}: "
+    gets.chomp
+  end
+end
+
 # Основной класс, приложение
 class App
   BET = 10
@@ -17,7 +25,7 @@ class App
     test
 
     dealer = Dealer.new(INITIAL_PLAYERS_MONEY)
-    player = Player.new(ask('Введите Ваше имя'), INITIAL_PLAYERS_MONEY)
+    player = Player.new(UI.ask('Введите Ваше имя'), INITIAL_PLAYERS_MONEY)
 
     loop do
       dealer.money -= BET
@@ -38,16 +46,11 @@ class App
         raise 'Ошибка программы, от Game.play, ожидается результат игры: nil, player или dealer'
       end
       puts
-      exit if player.money < BET || dealer.money < BET || !ask('Играем ещё? (Y/N)').to_s.upcase.eql?('Y')
+      exit if player.money < BET || dealer.money < BET || !UI.ask('Играем ещё? (Y/N)').to_s.upcase.eql?('Y')
     end
   end
 
   private
-
-  def ask(prompt)
-    print "#{prompt}: "
-    gets.chomp
-  end
 
   def test
     test_deck
