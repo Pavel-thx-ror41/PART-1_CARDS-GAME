@@ -47,12 +47,15 @@ class App
       when nil
         dealer.money += game_bank / 2
         player.money += game_bank / 2
+        puts
         puts "Ничья. Крупье:#{dealer.money}$, #{player.name}:#{player.money}$"
       when dealer
         dealer.money += game_bank
+        puts
         puts "Выиграл крупье. Крупье:#{dealer.money}$, #{player.name}:#{player.money}$"
       when player
         player.money += game_bank
+        puts
         puts "Выиграл игрок: #{player.name}. Крупье:#{dealer.money}$, #{player.name}:#{player.money}$"
       else
         raise 'Ошибка программы, от Game.play, ожидается результат игры: nil, player или dealer'
