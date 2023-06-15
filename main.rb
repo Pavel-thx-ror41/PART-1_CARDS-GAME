@@ -20,7 +20,7 @@ class UI
     result_choice = nil
     until result_choice
       print "#{prompt}, доступно: " \
-          "#{choices.values.each_with_index.map { |value, index| "#{index + 1}) #{value}" }.join(', ')}. Ваш выбор:"
+          "#{choices.values.each_with_index.map { |value, index| "#{index + 1}) #{value}" }.join(', ')}. Ваш выбор: "
       user_input_digit = gets.chomp.to_i
       result_choice = choices.keys[user_input_digit - 1] if user_input_digit.positive?
     end
@@ -48,21 +48,26 @@ class App
         dealer.money += game_bank / 2
         player.money += game_bank / 2
         puts
-        puts "Ничья. Крупье:#{dealer.money}$, #{player.name}:#{player.money}$"
+        puts 'Ничья.'
       when dealer
         dealer.money += game_bank
         puts
-        puts "Выиграл крупье. Крупье:#{dealer.money}$, #{player.name}:#{player.money}$"
+        puts 'Выиграл крупье.'
       when player
         player.money += game_bank
         puts
-        puts "Выиграл игрок: #{player.name}. Крупье:#{dealer.money}$, #{player.name}:#{player.money}$"
+        puts "Выиграл игрок: #{player.name}."
       else
         raise 'Ошибка программы, от Game.play, ожидается результат игры: nil, player или dealer'
       end
+      show_money(dealer, player)
       puts
       exit if player.money < BET || dealer.money < BET || !UI.ask('Играем ещё? (Y/N)').to_s.upcase.eql?('Y')
     end
+  end
+
+  def show_money(dealer, player)
+    puts "Крупье:#{dealer.money}$, Игрок:#{player.money}$"
   end
 end
 
