@@ -109,13 +109,13 @@ class Game
   end
 
   def player_turn
-    player_choice = nil
-    until player_choice
-      ui_choice = @player.get_turn(Game.possible_player_actions(@player_cards.count))
-      player_choice = ui_choice if Game.possible_player_actions(@player_cards.count).keys.include?(ui_choice)
-      player_choice
+    filtered_player_choice = nil
+    until filtered_player_choice
+      ui_input = @player.get_turn(Game.possible_player_actions(@player_cards.count))
+      filtered_player_choice = ui_input if Game.possible_player_actions(@player_cards.count).keys.include?(ui_input)
+      filtered_player_choice
     end
-    player_choice
+    filtered_player_choice
   end
 
   def show_game
