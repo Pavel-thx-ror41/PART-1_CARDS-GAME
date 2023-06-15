@@ -10,16 +10,35 @@ require_relative 'game'
 
 # Основной класс, приложение
 class App
+  BET = 10
+  INITIAL_PLAYERS_MONEY = 100
+
   def run
     test
-    dealer = Dealer.new(100)
-    player = Player.new(ask('Введите Ваше имя'), 100)
+
+    dealer = Dealer.new(INITIAL_PLAYERS_MONEY)
+    player = Player.new(ask('Введите Ваше имя'), INITIAL_PLAYERS_MONEY)
 
     loop do
-      dealer.money -= 10
-      player.money -= 10
-      puts Game.new(dealer, player).play
-      exit if player.money < 10 || dealer.money < 10 || !ask('Ещё игру?').to_s.upcase.eql?('Y')
+      dealer.money -= BET
+      player.money -= BET
+      game_bank = BET * 2
+      case Game.new(dealer, player).play
+      when nil
+        dealer.money += game_bank / 2
+        player.money += game_bank / 2
+        puts "Ничья. Крупье:#{dealer.money}$, #{player.name}:#{player.money}$"
+      when dealer
+        dealer.money += game_bank
+        puts "Выиграл крупье. Крупье:#{dealer.money}$, #{player.name}:#{player.money}$"
+      when player
+        player.money += game_bank
+        puts "Выиграл игрок: #{player.name}. Крупье:#{dealer.money}$, #{player.name}:#{player.money}$"
+      else
+        raise 'Ошибка программы, от Game.play, ожидается результат игры: nil, player или dealer'
+      end
+      puts
+      exit if player.money < BET || dealer.money < BET || !ask('Играем ещё? (Y/N)').to_s.upcase.eql?('Y')
     end
   end
 

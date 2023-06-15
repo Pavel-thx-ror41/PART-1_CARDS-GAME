@@ -23,7 +23,6 @@ class Game
 
     # casino
     @deck = Deck.new
-    @game_bank = 20
     2.times do
       @player_cards << @deck.card_get
       @dealer_cards << @deck.card_get
@@ -37,7 +36,7 @@ class Game
       dealer_turn
       break if game_end?
     end
-    "Победил ..."
+    [nil, @player, @dealer].shuffle!.shuffle!.pop
   end
 
   private
