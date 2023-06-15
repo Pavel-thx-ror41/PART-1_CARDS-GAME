@@ -21,7 +21,8 @@ class UI
     until player_choice
       print "#{prompt}, доступно: " \
           "#{choices.values.each_with_index.map { |value, index| "#{index + 1}) #{value}" }.join(', ')}. Ваш выбор:"
-      player_choice = choices.keys[gets.chomp.to_i - 1]
+      user_input_digit = gets.chomp.to_i
+      player_choice = choices.keys[user_input_digit - 1] if user_input_digit.positive?
     end
     player_choice
   end
